@@ -1,9 +1,9 @@
-from flask import Flask
+from flask import Flask  # Создание приложения
 # from flask_sqlalchemy import SQLAlchemy
 from app.models import *
 from app.db import db
 
-# db: SQLAlchemy = SQLAlchemy()
+
 # with db.session.begin():
 
 
@@ -19,6 +19,10 @@ def create_app():
         from app import routes
         db.drop_all()
         db.create_all()
+
+        from app import migrate
+        migrate.migrate_user_roles(app.config['USER_ROLES_DATA_PATH'])
+        migrate.migrate_users(app.config['USER_DATA_PATH'])
 
         return app
 
